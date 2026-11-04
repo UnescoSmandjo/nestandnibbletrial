@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#07201b"><title>Login Pegawai | Nest & Nibble</title>
+<link rel="stylesheet" href="/login.css"></head>
+<body><main class="card"><div class="logo">N</div><h1>Nest & Nibble</h1><p>Masuk menggunakan ID pegawai atau owner yang terdaftar.</p>
+<form id="login"><label for="uid">ID Login</label><input id="uid" name="id" autocomplete="username" required maxlength="40" placeholder="Masukkan ID">
+<label for="pw">Password</label><input id="pw" name="password" type="password" autocomplete="current-password" required maxlength="100" placeholder="Masukkan password">
+<button id="submit" type="submit">Masuk ke aplikasi</button><div class="error" id="error" role="alert"></div></form><div class="foot">Akses terbatas untuk pegawai dan owner</div></main>
+<script>
+const form=document.getElementById('login'),btn=document.getElementById('submit'),err=document.getElementById('error');
+form.addEventListener('submit',async e=>{e.preventDefault();btn.disabled=true;btn.textContent='Memeriksa...';err.textContent='';try{const res=await fetch('/api/login',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({id:document.getElementById('uid').value.trim(),password:document.getElementById('pw').value})});const data=await res.json();if(!res.ok)throw new Error(data.error||'Login gagal');location.replace('/')}catch(e){err.textContent=e.message||'Tidak dapat menghubungi server'}finally{btn.disabled=false;btn.textContent='Masuk ke aplikasi'}});
+</script></body></html>
